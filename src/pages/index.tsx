@@ -3,37 +3,39 @@ import { useState, useEffect } from "react";
 
 // requirements: make it work :) doesnt matter how
 type Product = { name: string, price: number }
-type JsonResponse = Record<number, Product>
-type State = (Product & { key: string })[]
 
-function getApiHello() {
+function getApiHello(): Promise<Record<number, Product>> {
   return fetch("/api/hello")
     .then((response) => response.json())
-    .then((json: JsonResponse) => Object.entries(json).map(i => ({
-      key: i[0],
-      ...i[1],
-    })))
 }
 
 const Home: NextPage = () => {
-  const [products, setProducts] = useState<State | null>(null);
+  const [products, setProducts] = useState<null | (Product & { key: string })[]>(null);
 
   useEffect(() => {
     getApiHello()
+      .then((json) => Object.entries(json).map(i => ({
+        key: i[0],
+        ...i[1],
+      })))
       .then(result => setProducts(result))
       .catch(e => console.error(e))
-  }, []);
+  }, [])
+
+  if (!products) {
+    return <div>Loading</div>
+  }
 
   return (
     <div>
-      {products ? products.map((product) => {
+      {products.map((product) => {
         return (
           <div key={product.key}>
             <p>{product.name}</p>
             <p>{product.price}</p>
           </div>
         );
-      }) : 'Loading'}
+      })}
     </div>
   );
 };
