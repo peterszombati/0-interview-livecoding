@@ -10,14 +10,11 @@ function getApiHello(): Promise<Record<number, Product>> {
 }
 
 const Home: NextPage = () => {
-  const [products, setProducts] = useState<null | (Product & { key: string })[]>(null);
+  const [products, setProducts] = useState<null | Product[]>(null);
 
   useEffect(() => {
     getApiHello()
-      .then((json) => Object.entries(json).map(i => ({
-        key: i[0],
-        ...i[1],
-      })))
+      .then((json) => Object.entries(json).map(i => i[1]))
       .then(result => setProducts(result))
       .catch(e => console.error(e))
   }, [])
@@ -28,9 +25,9 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      {products.map((product) => {
+      {products.map((product, index) => {
         return (
-          <div key={product.key}>
+          <div key={index}>
             <p>{product.name}</p>
             <p>{product.price}</p>
           </div>
