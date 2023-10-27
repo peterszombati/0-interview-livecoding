@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     getApiHello()
-      .then((json) => Object.entries(json).map(i => i[1]))
+      .then(json => Object.entries(json).map(i => i[1]))
       .then(result => setProducts(result))
       .catch(e => console.error(e))
   }, [])
@@ -25,14 +25,12 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      {products.map((product, index) => {
-        return (
-          <div key={index}>
-            <p>{product.name}</p>
-            <p>{product.price}</p>
-          </div>
-        );
-      })}
+      {products.map((product, index) =>
+        <div key={index}>
+          <p>{product.name}</p>
+          <p>{product.price}</p>
+        </div>
+      )}
     </div>
   );
 };
