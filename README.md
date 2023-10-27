@@ -48,7 +48,7 @@ const Home: NextPage = () => {
 export default Home;
 ```
 ### solution
-```ts
+```tsx
 import type { NextPage } from "next";
 import { useState, useEffect } from "react";
 
@@ -80,7 +80,7 @@ const Home: NextPage = () => {
           <div key={index}>
             <p>{product.name}</p>
             <p>{product.price}</p>
-            </div>
+          </div>
         )}
     </div>
   );
