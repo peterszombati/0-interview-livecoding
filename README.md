@@ -65,7 +65,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     getApiHello()
-      .then(json => Object.entries(json).map(i => i[1]))
+      .then(json => Object.values(json))
       .then(result => setProducts(result))
       .catch(e => console.error(e))
   }, [])
